@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "/usr/lib/sdk/dotnet6/bin/dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/sqlparser.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "/usr/lib/sdk/dotnet6/bin/dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/sqlparser.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "/usr/lib/sdk/dotnet6/bin/dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/sqlparser.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
