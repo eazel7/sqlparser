@@ -5,8 +5,6 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-
         var parser = new TSql150Parser(true);
 
         var reader = new StreamReader(File.OpenRead("sample.sql"));
@@ -18,7 +16,6 @@ internal class Program
         var visitor = new MyVisitor();
 
         tokenList.Accept(visitor);
-        Console.WriteLine("GO");
     }
 }
 
