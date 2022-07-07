@@ -22,14 +22,15 @@ internal class Program
 public class MyVisitor : TSqlFragmentVisitor
 {
     int? headerEndsAtOffset = null;
+
     public override void Visit(TSqlStatement node)
     {
-        if (node is CreateProcedureStatement)
-        {
-            var createProcedureStatement = node as CreateProcedureStatement;
+        var createProcedureStatement = node as CreateProcedureStatement;
 
+        if (createProcedureStatement != null)
+        {
             headerEndsAtOffset = createProcedureStatement.ScriptTokenStream
-            .Where(t => t.TokenType == TSqlTokenType.As)
+            .Where(t => t?.TokenType == TSqlTokenType.As)
             .Select(t => t.Offset + t.Text.Length)
             .Last();
 
@@ -38,10 +39,12 @@ public class MyVisitor : TSqlFragmentVisitor
             Console.Write(String.Join(",\n", createProcedureStatement.Parameters.Select(p => $"  {p.VariableName.Value} {p.DataType.Name.Identifiers[0].Value}")));
 
             Console.WriteLine("\nAS");
-        } else {
-            foreach(var other in node.ScriptTokenStream) {
-                if (headerEndsAtOffset != null && other.Offset > headerEndsAtOffset.Value) {
-                    Console.Write(other.Text);
+
+            foreach (var statement in createProcedureStatement.StatementList.Statements)
+            {
+                foreach (var token in statement.ScriptTokenStream.Where(t => t.Offset > headerEndsAtOffset))
+                {
+                    Console.Write(token.Text);
                 }
             }
         }
